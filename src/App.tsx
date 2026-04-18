@@ -63,7 +63,7 @@ INSIGHT PRAKTIS (WAJIB):
 Sertakan contoh kasus proyek nyata, kesalahan umum, dan solusi teknis dalam penjelasan yang komprehensif.
 
 FAQ: Maksimal 5 pertanyaan dengan jawaban yang mendalam.
-BRAND TRUST SIGNAL: Sisipkan sebelum kesimpulan, tonjolkan keunggulan IndoGeotextile sebagai solusi geosintetik terpercaya.
+BRAND TRUST SIGNAL: Sisipkan sebelum kesimpulan, tonjolkan keunggulan Indogeotextile sebagai solusi geosintetik terpercaya.
 CTA INDOGEOTEXTILE (WAJIB): Gunakan maksimal 2–3 CTA dalam artikel. Penempatan alami (tidak dipaksakan). Gaya soft selling.
 Gunakan link berikut:
 1. Konsultasi teknis: [diskusi spesifikasi proyek](https://indogeotextile.com/konsultasi/)
@@ -189,7 +189,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
             <Sparkles size={20} />
           </div>
           <div>
-            <h1 className="font-bold text-lg tracking-tight">Indo Geotextile</h1>
+            <h1 className="font-bold text-lg tracking-tight">Indogeotextile</h1>
             <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">SEO AI Engine</p>
           </div>
         </header>
@@ -208,7 +208,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
 
           <div className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Kata Kunci Utama (H1)</label>
+              <label className="text-[11px] font-bold text-slate-700 tracking-wide">Frasa Kunci</label>
               <input 
                 type="text" 
                 className="w-full bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
@@ -222,7 +222,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
               <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">INTERNAL LINK 1 (ARTIKEL UTAMA)</h3>
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-700">Anchor Text</label>
+                  <label className="text-[11px] font-bold text-slate-700">Anchor Text 1</label>
                   <input 
                     type="text" 
                     className="w-full bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
@@ -232,7 +232,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-700">URL</label>
+                  <label className="text-[11px] font-bold text-slate-700">Url 1</label>
                   <input 
                     type="text" 
                     className="w-full bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
@@ -248,7 +248,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
               <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">INTERNAL LINK 2 (ARTIKEL PILAR)</h3>
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-700">Anchor Text</label>
+                  <label className="text-[11px] font-bold text-slate-700">Anchor Text 2</label>
                   <input 
                     type="text" 
                     className="w-full bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
@@ -258,7 +258,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-700">URL</label>
+                  <label className="text-[11px] font-bold text-slate-700">Url 2</label>
                   <input 
                     type="text" 
                     className="w-full bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all" 
@@ -297,7 +297,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
               'Struktur H1, H2, H3 yang rapi',
               'Paragraf panjang & mendalam (Anti-Thin)',
               'Internal & Outbound Linking otomatis',
-              'CTA IndoGeotextile yang terintegrasi',
+              'CTA Indogeotextile yang terintegrasi',
               'Gaya bahasa profesional & teknis'
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-2 text-[11px] text-slate-500 font-medium">
