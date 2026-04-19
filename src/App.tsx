@@ -106,12 +106,20 @@ export default function App() {
   const anchor2 = params.get('anchor2') || '';
   const url2 = params.get('url2') || '';
 
-  setKeywordUtama(frasa);
-  setKeywordUtamaArtikel(anchor1);
-  setUrlArtikelUtama(url1);
-  setKeywordPilar(anchor2);
-  setUrlArtikelPilar(url2);
+  if (frasa) {
+    setKeywordUtama(frasa);
+    setKeywordUtamaArtikel(anchor1);
+    setUrlArtikelUtama(url1);
+    setKeywordPilar(anchor2);
+    setUrlArtikelPilar(url2);
+
+    // ⏳ TUNGGU STATE KESET → BARU GENERATE
+    setTimeout(() => {
+      handleGenerate();
+    }, 800);
+  }
 }, []);
+
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState('');
