@@ -97,22 +97,6 @@ export default function App() {
   const [keywordPilar, setKeywordPilar] = useState('');
   const [urlArtikelPilar, setUrlArtikelPilar] = useState('');
   
-  useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-
-  const frasa = params.get("frasa");
-  const anchor1 = params.get("anchor1");
-  const url1 = params.get("url1");
-  const anchor2 = params.get("anchor2");
-  const url2 = params.get("url2");
-
-  if (frasa) setKeywordUtama(frasa);
-  if (anchor1) setKeywordUtamaArtikel(anchor1);
-  if (url1) setUrlArtikelUtama(url1);
-  if (anchor2) setKeywordPilar(anchor2);
-  if (url2) setUrlArtikelPilar(url2);
-}, []);
-  
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState('');
   const [copied, setCopied] = useState(false);
