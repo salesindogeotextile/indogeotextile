@@ -96,6 +96,29 @@ export default function App() {
   const [urlArtikelUtama, setUrlArtikelUtama] = useState('');
   const [keywordPilar, setKeywordPilar] = useState('');
   const [urlArtikelPilar, setUrlArtikelPilar] = useState('');
+
+  useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+
+  const frasa = params.get('frasa') || '';
+  const anchor1 = params.get('anchor1') || '';
+  const url1 = params.get('url1') || '';
+  const anchor2 = params.get('anchor2') || '';
+  const url2 = params.get('url2') || '';
+
+  if (frasa) {
+    setKeywordUtama(frasa);
+    setKeywordUtamaArtikel(anchor1);
+    setUrlArtikelUtama(url1);
+    setKeywordPilar(anchor2);
+    setUrlArtikelPilar(url2);
+
+    // ⏳ TUNGGU STATE KESET → BARU GENERATE
+    setTimeout(() => {
+      handleGenerate();
+    }, 800);
+  }
+}, []);
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState('');
