@@ -96,34 +96,12 @@ export default function App() {
   const [urlArtikelUtama, setUrlArtikelUtama] = useState('');
   const [keywordPilar, setKeywordPilar] = useState('');
   const [urlArtikelPilar, setUrlArtikelPilar] = useState('');
-
-  useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-
-  const frasa = params.get('frasa') || '';
-  const anchor1 = params.get('anchor1') || '';
-  const url1 = params.get('url1') || '';
-  const anchor2 = params.get('anchor2') || '';
-  const url2 = params.get('url2') || '';
-
-  if (frasa) {
-    setKeywordUtama(frasa);
-    setKeywordUtamaArtikel(anchor1);
-    setUrlArtikelUtama(url1);
-    setKeywordPilar(anchor2);
-    setUrlArtikelPilar(url2);
-
-    // ⏳ TUNGGU STATE KESET → BARU GENERATE
-    setTimeout(() => {
-      handleGenerate();
-    }, 800);
-  }
-}, []);
-
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState('');
   const [copied, setCopied] = useState(false);
+  const [copiedHtml, setCopiedHtml] = useState(false);
+  const [copiedSeo, setCopiedSeo] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'visual' | 'html'>('visual');
 
@@ -177,10 +155,27 @@ Hasilkan artikel sesuai instruksi sistem.`;
   };
 
   const copyToClipboard = () => {
-    const contentToCopy = viewMode === 'html' ? marked.parse(generatedContent) : generatedContent;
+    const contentToCopy = viewMode === 'html' ? marked.parse(generatedContent.split('---SEO-DATA-SEPARATOR---')[0]) : generatedContent.split('---SEO-DATA-SEPARATOR---')[0];
     navigator.clipboard.writeText(contentToCopy as string);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const copyHtmlOnly = () => {
+    if (!generatedContent) return;
+    const articleMarkdown = generatedContent.split('---SEO-DATA-SEPARATOR---')[0];
+    const htmlContent = marked.parse(articleMarkdown);
+    navigator.clipboard.writeText(htmlContent as string);
+    setCopiedHtml(true);
+    setTimeout(() => setCopiedHtml(false), 2000);
+  };
+
+  const copySeoOnly = () => {
+    if (!generatedContent) return;
+    const seoData = generatedContent.split('---SEO-DATA-SEPARATOR---')[1]?.trim() || '';
+    navigator.clipboard.writeText(seoData);
+    setCopiedSeo(true);
+    setTimeout(() => setCopiedSeo(false), 2000);
   };
 
   const downloadFiles = (text: string) => {
@@ -355,6 +350,31 @@ Hasilkan artikel sesuai instruksi sistem.`;
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600">AI Engine Active</span>
             </div>
           </div>
+
+          <AnimatePresence>
+            {generatedContent && (
+              <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex items-center gap-2"
+              >
+                <button 
+                  onClick={copyHtmlOnly}
+                  className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-900 rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-slate-50 transition-all shadow-sm active:scale-95"
+                >
+                  {copiedHtml ? <Check size={12} className="text-green-600" /> : <Copy size={12} className="text-slate-400" />}
+                  <span>Salin HTML (artikel)</span>
+                </button>
+                <button 
+                  onClick={copySeoOnly}
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-slate-800 transition-all shadow-md active:scale-95"
+                >
+                  {copiedSeo ? <Check size={12} className="text-green-400" /> : <Copy size={12} className="text-white/50" />}
+                  <span>Salin Data Seo (TXT)</span>
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </nav>
 
         {/* Main Content Display */}
