@@ -110,9 +110,11 @@ export default function App() {
     setGeneratedContent('');
     setError(null);
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const envKey = process.env.GEMINI_API_KEY;
+    const apiKey = (envKey && envKey !== 'undefined') ? envKey : null;
+
     if (!apiKey) {
-      setError("API Key tidak ditemukan. Pastikan GEMINI_API_KEY sudah diatur di Environment Variables.");
+      setError("API Key tidak ditemukan atau bernilai 'undefined'. Pastikan GEMINI_API_KEY sudah diatur dengan benar di Environment Variables Vercel dan lakukan redeploy.");
       setIsGenerating(false);
       return;
     }
@@ -120,7 +122,7 @@ export default function App() {
     try {
       const ai = new GoogleGenAI({ apiKey });
       const prompt = `INPUT:
-Kata Kunci Utama (H1): ${keywordUtama}
+Frasa Kunci: ${keywordUtama}
 Keyword Artikel Utama (internal link 1): ${keywordUtamaArtikel}
 URL Artikel Utama: ${urlArtikelUtama}
 Keyword Artikel Pilar (internal link 2): ${keywordPilar}
@@ -129,7 +131,7 @@ URL Artikel Pilar: ${urlArtikelPilar}
 Hasilkan artikel sesuai instruksi sistem.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.1-pro-preview",
+        model: "gemini-3-flash-preview",
         contents: prompt,
         config: {
           systemInstruction: SYSTEM_PROMPT,
