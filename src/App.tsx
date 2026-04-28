@@ -97,29 +97,6 @@ export default function App() {
   const [keywordPilar, setKeywordPilar] = useState('');
   const [urlArtikelPilar, setUrlArtikelPilar] = useState('');
 
-  useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-
-  const frasa = params.get('frasa') || '';
-  const anchor1 = params.get('anchor1') || '';
-  const url1 = params.get('url1') || '';
-  const anchor2 = params.get('anchor2') || '';
-  const url2 = params.get('url2') || '';
-
-  if (frasa) {
-    setKeywordUtama(frasa);
-    setKeywordUtamaArtikel(anchor1);
-    setUrlArtikelUtama(url1);
-    setKeywordPilar(anchor2);
-    setUrlArtikelPilar(url2);
-
-    // ⏳ TUNGGU STATE KESET → BARU GENERATE
-    setTimeout(() => {
-      handleGenerate();
-    }, 800);
-  }
-}, []);
-  
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState('');
   const [copied, setCopied] = useState(false);
@@ -128,8 +105,9 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'visual' | 'html'>('visual');
 
-  const handleGenerate = async () => {
-    if (!keywordUtama) return;
+  const handleGenerate = async (currentKeyword?: string, currentAnchor1?: string, currentUrl1?: string, currentAnchor2?: string, currentUrl2?: string) => {
+    const k1 = currentKeyword || keywordUtama;
+    if (!k1) return;
     
     setIsGenerating(true);
     setGeneratedContent('');
@@ -147,11 +125,11 @@ export default function App() {
     try {
       const ai = new GoogleGenAI({ apiKey });
       const prompt = `INPUT:
-Frasa Kunci: ${keywordUtama}
-Keyword Artikel Utama (internal link 1): ${keywordUtamaArtikel}
-URL Artikel Utama: ${urlArtikelUtama}
-Keyword Artikel Pilar (internal link 2): ${keywordPilar}
-URL Artikel Pilar: ${urlArtikelPilar}
+Frasa Kunci: ${k1}
+Keyword Artikel Utama (internal link 1): ${currentAnchor1 || keywordUtamaArtikel}
+URL Artikel Utama: ${currentUrl1 || urlArtikelUtama}
+Keyword Artikel Pilar (internal link 2): ${currentAnchor2 || keywordPilar}
+URL Artikel Pilar: ${currentUrl2 || urlArtikelPilar}
 
 Hasilkan artikel sesuai instruksi sistem.`;
 
@@ -177,8 +155,32 @@ Hasilkan artikel sesuai instruksi sistem.`;
     }
   };
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    const frasa = params.get('frasa') || '';
+    const anchor1 = params.get('anchor1') || '';
+    const url1 = params.get('url1') || '';
+    const anchor2 = params.get('anchor2') || '';
+    const url2 = params.get('url2') || '';
+
+    if (frasa) {
+      setKeywordUtama(frasa);
+      setKeywordUtamaArtikel(anchor1);
+      setUrlArtikelUtama(url1);
+      setKeywordPilar(anchor2);
+      setUrlArtikelPilar(url2);
+
+      // ⏳ TUNGGU STATE KESET → BARU GENERATE
+      setTimeout(() => {
+        handleGenerate(frasa, anchor1, url1, anchor2, url2);
+      }, 800);
+    }
+  }, []);
+
   const copyToClipboard = () => {
-    const contentToCopy = viewMode === 'html' ? marked.parse(generatedContent.split('---SEO-DATA-SEPARATOR---')[0]) : generatedContent.split('---SEO-DATA-SEPARATOR---')[0];
+    const pieces = generatedContent.split('---SEO-DATA-SEPARATOR---');
+    const contentToCopy = viewMode === 'html' ? marked.parse(pieces[0]) : pieces[0];
     navigator.clipboard.writeText(contentToCopy as string);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -326,7 +328,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
           </div>
 
           <button 
-            onClick={handleGenerate}
+            onClick={() => handleGenerate()}
             disabled={isGenerating || !keywordUtama}
             className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 text-white rounded-xl py-3.5 flex items-center justify-center gap-3 font-bold text-sm transition-all shadow-lg shadow-slate-200 active:scale-[0.98]"
           >
@@ -335,7 +337,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
             ) : (
               <Send size={16} className="-rotate-45" />
             )}
-            <span>Generate Artikel</span>
+            <span>{generatedContent ? 'Regenerate Content' : 'Generate Artikel'}</span>
           </button>
         </div>
 
@@ -612,7 +614,8 @@ Hasilkan artikel sesuai instruksi sistem.`;
 
                         <button 
                           onClick={() => {
-                            navigator.clipboard.writeText(generatedContent.split('---SEO-DATA-SEPARATOR---')[1].trim());
+                            const seoData = generatedContent.split('---SEO-DATA-SEPARATOR---')[1]?.trim() || '';
+                            navigator.clipboard.writeText(seoData);
                             setCopied(true);
                             setTimeout(() => setCopied(false), 2000);
                           }}
