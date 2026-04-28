@@ -171,10 +171,10 @@ Hasilkan artikel sesuai instruksi sistem.`;
       setKeywordPilar(anchor2);
       setUrlArtikelPilar(url2);
 
-      // ⏳ TUNGGU STATE KESET → BARU GENERATE
+      // ⏳ Auto-generate with small delay for UI readiness
       setTimeout(() => {
         handleGenerate(frasa, anchor1, url1, anchor2, url2);
-      }, 800);
+      }, 300);
     }
   }, []);
 
@@ -337,7 +337,7 @@ Hasilkan artikel sesuai instruksi sistem.`;
             ) : (
               <Send size={16} className="-rotate-45" />
             )}
-            <span>{generatedContent ? 'Regenerate Content' : 'Generate Artikel'}</span>
+            <span>{isGenerating ? 'Memproses...' : 'Regenerate'}</span>
           </button>
         </div>
 
